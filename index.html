@@ -24,6 +24,56 @@
     <ul id="dog-breeds">
 
     </ul>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const dogImageContainer = document.getElementById('dog-image-container');
+        const dogBreedsList = document.getElementById('dog-breeds');
+        const breedDropdown = document.getElementById('breed-dropdown');
+
+        // Challenge 1
+        fetch("https://dog.ceo/api/breeds/image/random/4")
+          .then(response => response.json())
+          .then(data => {
+            data.message.forEach(imgUrl => {
+              const img = document.createElement('img');
+              img.src = imgUrl;
+              dogImageContainer.appendChild(img);
+            });
+          });
+
+        // Challenge 2
+        fetch("https://dog.ceo/api/breeds/list/all")
+          .then(response => response.json())
+          .then(data => {
+            for (const breed in data.message) {
+              const breedOption = document.createElement('option');
+              breedOption.textContent = breed;
+              breedOption.value = breed;
+              dogBreedsList.appendChild(breedOption);
+            }
+          });
+
+        // Challenge 3
+        dogBreedsList.addEventListener('click', function(event) {
+          if (event.target.tagName === 'LI') {
+            event.target.style.color = 'blue'; // Change color to blue on click
+          }
+        });
+
+        // Challenge 4
+        breedDropdown.addEventListener('change', function() {
+          const selectedLetter = breedDropdown.value;
+          const breeds = document.querySelectorAll('#dog-breeds li');
+          breeds.forEach(breed => {
+            if (breed.textContent.charAt(0).toLowerCase() === selectedLetter) {
+              breed.style.display = 'block';
+            } else {
+              breed.style.display = 'none';
+            }
+          });
+        });
+      });
+    </script>
 
   </body>
 </html>
